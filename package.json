@@ -1,0 +1,77 @@
+{
+  "name": "paste-a-file",
+  "displayName": "Paste a File",
+  "description": "Select a file/template and insert its content.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "icon": "images/icon.png",
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "paste-a-file.paste",
+        "title": "Paste a File"
+      }
+    ]
+  },
+  "menus": {
+    "editor/context": [
+      {
+        "command": "paste-a-file.paste",
+        "group": "z_commands"
+      }
+    ]
+  },
+  "configuration": {
+    "title": "pasteAFile",
+    "properties": {
+      "pasteAFile.directory": {
+        "type": "string",
+        "default": "",
+        "description": "Directory in which files to paste are searched. Default is the open workspacefolder"
+      },
+      "pasteAFile.ignoreFilePatterns": {
+        "type": "array",
+        "default": [
+          "**/*.exe",
+          "**/tmp/**"
+        ],
+        "description": "An array of glob patterns for files that should not be found"
+      },
+      "pasteAFile.excludeFromFilePatterns": {
+        "type": "array",
+        "default": [
+        ],
+        "description": "An array of regexp patterns which are cut out of the file before it is inserted"
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "glob": "^11.0.0"
+  }
+}
