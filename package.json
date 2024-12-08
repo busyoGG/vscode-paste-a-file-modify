@@ -2,7 +2,7 @@
   "name": "paste-a-file",
   "displayName": "Paste a File",
   "description": "Select a file/template and insert its content.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "jon-of-us",
   "engines": {
     "vscode": "^1.95.0"
