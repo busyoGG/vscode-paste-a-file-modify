@@ -5,9 +5,9 @@ import * as glob from 'glob';
 function cleanUpSlashes(path: string) {
 	//windows problems...
 	return path
-		.replace( /\\/g , "/")
+		.replace(/\\/g, "/")
 		.replace(/([a-z]):\//g, (_, p1) => `${p1.toUpperCase()}:/`)
-		.replace( /^\//, "")
+		.replace(/^\//, "")
 }
 function config() {
 	return vscode.workspace.getConfiguration('pasteAFile')
@@ -59,31 +59,24 @@ async function paste() {
 	// if no template file is selected, exits.
 	if (!file) { return; }
 
-
 	//
 	// extract content and apply regex
 	//
 	var text = (await vscode.workspace.openTextDocument(file)).getText()
 
-	type RegexJson = {body: string, flags?: string};
-	const excludeFromFilePatterns: RegexJson[] = 
+	type RegexJson = { body: string, flags?: string };
+	const excludeFromFilePatterns: RegexJson[] =
 		config().get('excludeFromFilePatterns') || [] as RegexJson[];
 	excludeFromFilePatterns.forEach(pattern => {
-		if (pattern.body == undefined) {
-			vscode.window.showErrorMessage(
-			`Provided regex to exclude from file doesnt work`
-			)
-			return;
-		}
 		try {
-			text = text.replace(new RegExp(pattern.body, pattern.flags), '');
+			var regex = new RegExp(pattern.body, pattern.flags)
+			text = text.replace(regex, '');
 		} catch (e) {
 			vscode.window.showErrorMessage(
-			`Provided regex to exclude from file doesnt work`
+				`Provided regex \nbody: ${pattern.body} \nto exclude from file doesnt work`
 			)
 		}
 	});
-
 
 	//
 	// paste content

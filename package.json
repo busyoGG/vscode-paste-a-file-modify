@@ -34,9 +34,9 @@
       "pasteAFile.directory": {
         "type": "string",
         "default": "",
-        "description": "Directory in which files to paste are searched. Default is the open workspacefolder"
+        "description": "Path/To/Directory in which files to paste are searched. Default is the open workspacefolder"
       },
-      "pasteAFile.ignoreFilePatterns": {
+      "pasteAFile.ignoreFiles": {
         "type": "array",
         "default": [
           "**/*.exe",
@@ -44,9 +44,24 @@
         ],
         "description": "An array of glob patterns for files that should not be found"
       },
-      "pasteAFile.excludeFromFilePatterns": {
+      "pasteAFile.excludeFromFile": {
         "type": "array",
         "default": [
+          {
+            "body": "[\\s\\S]*?(?=\\n.*paste-a-file START.*)\\s*"
+          },
+          {
+            "body": "(?<=^.*paste-a-file STOP.*\\n)(?!.*paste-a-file STOP.*)[\\s\\S]*\\s*",
+            "flags": "s"
+          },
+          {
+            "body": "(?<=\\n.*paste-a-file STOP.*\\n)[\\s\\S]*?(?=\\n.*paste-a-file START.*\\n)\\s*",
+            "flags": "gs"
+          },
+          {
+            "body": "^.*paste-a-file (START|STOP).*$\\s*",
+            "flags": "gm"
+          }
         ],
         "description": "An array of regexp patterns which are cut out of the file before it is inserted"
       }
