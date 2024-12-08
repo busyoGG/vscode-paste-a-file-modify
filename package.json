@@ -19,7 +19,37 @@
         "command": "paste-a-file.paste",
         "title": "Paste a File"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "pasteAFile",
+      "properties": {
+        "pasteAFile.directory": {
+          "type": "string",
+          "default": "",
+          "description": "Path/To/Directory in which files to paste are searched. Default is the open workspacefolder"
+        },
+        "pasteAFile.filePattern": {
+          "type": "string",
+          "default": "**/*",
+          "description": "A glob pattern for files that are matched in the selected folder"
+        },
+        "pasteAFile.ignoreFilePatterns": {
+          "type": "array",
+          "default": [],
+          "description": "An array of glob patterns for files that are not matched"
+        },
+        "pasteAFile.excludeFromFilePatterns": {
+          "type": "array",
+          "default": [
+            {
+              "body": "(((?=[\\s\\S]*paste-a-file START)^)|(?=.*paste-a-file STOP.*\\r?\\n))[\\s\\S]*?((?<=.*paste-a-file START.*\\r?\\n)|$)\\s*",
+              "flags": "g"
+            }
+          ],
+          "description": "An array of regex patterns which are cut out of the file before it is inserted"
+        }
+      }
+    }
   },
   "menus": {
     "editor/context": [
@@ -28,36 +58,6 @@
         "group": "z_commands"
       }
     ]
-  },
-  "configuration": {
-    "title": "pasteAFile",
-    "properties": {
-      "pasteAFile.directory": {
-        "type": "string",
-        "default": "",
-        "description": "Path/To/Directory in which files to paste are searched. Default is the open workspacefolder"
-      },
-      "pasteAFile.filePattern": {
-        "type": "string",
-        "default": "**/*",
-        "description": "A glob pattern for files that are matched in the selected folder"
-      },
-      "pasteAFile.ignoreFilePatterns": {
-        "type": "array",
-        "default": [],
-        "description": "An array of glob patterns for files that are not matched"
-      },
-      "pasteAFile.excludeFromFilePatterns": {
-        "type": "array",
-        "default": [
-          {
-            "body": "(((?=[\\s\\S]*paste-a-file START)^)|(?=.*paste-a-file STOP.*\\r?\\n))[\\s\\S]*?((?<=.*paste-a-file START.*\\r?\\n)|$)\\s*",
-            "flags": "g"
-          }
-        ],
-        "description": "An array of regex patterns which are cut out of the file before it is inserted"
-      }
-    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
