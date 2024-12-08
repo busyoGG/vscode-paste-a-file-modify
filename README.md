@@ -41,22 +41,22 @@ ooo
 
 settings.json
 ```json
-"pasteAFile.directory": {
+"paste-a-file.directory": {
   "type": "string",
   "default": "",
   "description": "Path/To/Directory in which files to paste are searched. Default is the open workspacefolder"
 },
-"pasteAFile.filePattern": {
+"paste-a-file.filePattern": {
   "type": "string",
   "default": "**/*",
   "description": "A glob pattern for files that are matched in the selected folder"
 },
-"pasteAFile.ignoreFilePatterns": {
+"paste-a-file.ignoreFilePatterns": {
   "type": "array",
   "default": [],
   "description": "An array of glob patterns for files that are not matched"
 },
-"pasteAFile.excludeFromFilePatterns": {
+"paste-a-file.excludeFromFilePatterns": {
   "type": "array",
   "default": [
     {
@@ -70,8 +70,8 @@ settings.json
 
 ## Example Settings
 ```
-"pasteAFile.filePattern": "**/*.{cc, cpp}",
-"pasteAFile.ignoreFilePatterns": [
+"paste-a-file.filePattern": "**/*.{cc, cpp}",
+"paste-a-file.ignoreFilePatterns": [
   "**/*.test.{cc, cpp}"
 ]
 
