@@ -10,7 +10,7 @@ function cleanUpSlashes(path: string) {
 		.replace(/^\//, "")
 }
 function config() {
-	return vscode.workspace.getConfiguration('pasteAFile')
+	return vscode.workspace.getConfiguration('paste-a-file')
 }
 
 async function paste() {
