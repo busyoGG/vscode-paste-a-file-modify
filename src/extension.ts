@@ -34,19 +34,29 @@ async function paste() {
 	//
 	//files in search path
 	//
+	const filePattern: string | undefined = config().get('filePattern');
+	if (!filePattern) {
+		vscode.window.showErrorMessage(
+			`No file pattern found to search for files.
+				Please specify the paste-a-file.filePattern setting`
+		)
+		return;
+	}
 	const ignoreFilePatterns: string[] = config().get('ignoreFilePatterns')!;
+	console.log(searchPath)
+	console.log(filePattern)
 	const files = glob.globSync(
-		`${searchPath}/**/*`,
+		`${searchPath}/${filePattern}`,
 		{ nodir: true, ignore: ignoreFilePatterns }
 	).map(f => cleanUpSlashes(f));
 	if (files.length === 0) {
 		vscode.window.showInformationMessage(
 			`No files to paste found. 
-				Search Directory is ${searchPath}`
+				Search Directory is ${searchPath}
+				maybe change the file glob patterns`
 		);
 		return;
 	}
-	console.log(files)
 
 	//
 	// user selects file

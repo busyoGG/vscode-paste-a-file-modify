@@ -3,6 +3,7 @@
   "displayName": "Paste a File",
   "description": "Select a file/template and insert its content.",
   "version": "0.0.1",
+  "publisher": "jon-of-us",
   "engines": {
     "vscode": "^1.95.0"
   },
@@ -36,34 +37,25 @@
         "default": "",
         "description": "Path/To/Directory in which files to paste are searched. Default is the open workspacefolder"
       },
-      "pasteAFile.ignoreFiles": {
-        "type": "array",
-        "default": [
-          "**/*.exe",
-          "**/tmp/**"
-        ],
-        "description": "An array of glob patterns for files that should not be found"
+      "pasteAFile.filePattern": {
+        "type": "string",
+        "default": "**/*",
+        "description": "A glob pattern for files that are matched in the selected folder"
       },
-      "pasteAFile.excludeFromFile": {
+      "pasteAFile.ignoreFilePatterns": {
+        "type": "array",
+        "default": [],
+        "description": "An array of glob patterns for files that are not matched"
+      },
+      "pasteAFile.excludeFromFilePatterns": {
         "type": "array",
         "default": [
           {
-            "body": "[\\s\\S]*?(?=\\n.*paste-a-file START.*)\\s*"
-          },
-          {
-            "body": "(?<=^.*paste-a-file STOP.*\\n)(?!.*paste-a-file STOP.*)[\\s\\S]*\\s*",
-            "flags": "s"
-          },
-          {
-            "body": "(?<=\\n.*paste-a-file STOP.*\\n)[\\s\\S]*?(?=\\n.*paste-a-file START.*\\n)\\s*",
-            "flags": "gs"
-          },
-          {
-            "body": "^.*paste-a-file (START|STOP).*$\\s*",
-            "flags": "gm"
+            "body": "(((?=[\\s\\S]*paste-a-file START)^)|(?=.*paste-a-file STOP.*\\r?\\n))[\\s\\S]*?((?<=.*paste-a-file START.*\\r?\\n)|$)\\s*",
+            "flags": "g"
           }
         ],
-        "description": "An array of regexp patterns which are cut out of the file before it is inserted"
+        "description": "An array of regex patterns which are cut out of the file before it is inserted"
       }
     }
   },
@@ -71,22 +63,21 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
+    "pretest": "npm run compile ",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.9",
+    "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@types/vscode": "^1.95.0",
-    "@typescript-eslint/eslint-plugin": "^8.10.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
-    "eslint": "^9.13.0",
     "typescript": "^5.6.3"
   },
   "dependencies": {
     "glob": "^11.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jon-of-us/vscode-paste-a-file"
+  },
+  "homepage": "https://github.com/jon-of-us/vscode-paste-a-file/blob/master/README.md"
 }
