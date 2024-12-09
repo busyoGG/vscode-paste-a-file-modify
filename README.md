@@ -13,7 +13,7 @@ Insert the content of a file (for example template or snippet) at the cursor pos
 - specify a folder from where the file should be picked from 
 - specify glob pattern of files that shoud be picked or ignored
 - specify regex patterns that should be deleted from the file, before it is pasted
-- the default pattern allows you to add comments ```paste-a-file START```and ```paste-a-file STOP``` in your files to mark which content should be pasted
+- the default pattern allows you to add comments ```paste-a-file START``` and ```paste-a-file STOP``` in your files to mark which content should be pasted
 
 for example
 ```
