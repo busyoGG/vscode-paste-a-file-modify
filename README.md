@@ -1,93 +1,102 @@
-# Paste a File
+# Paste a File Modify
 
-## Features
+## 📌 Fork 信息  
 
-Insert the content of a file (for example template or snippet) at the cursor position.
+本插件是从 [jon-of-us/vscode-paste-a-file](https://github.com/jon-of-us/vscode-paste-a-file) fork 过来的，并在此基础上进行修改和扩展。  
 
-- Choose `Paste a File` from the Command Palette (`Ctrl + Shift + P`). 
-- Now you can pick a file 
-- Its content is pasted into the active file
+原项目遵循 [MIT License](https://opensource.org/licenses/MIT)，如果你希望使用原版插件，请访问 [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=jon-of-us.paste-a-file)。  
 
-## Options
+### ✨ 变更内容  
+- 修改读取模板路径的方式，支持相对路径和绝对路径。  
 
-- specify a folder from where the file should be picked from 
-- specify glob pattern of files that shoud be picked or ignored
-- specify regex patterns that should be deleted from the file, before it is pasted
-- the default pattern allows you to add comments ```paste-a-file START``` and ```paste-a-file STOP``` in your files to mark which content should be pasted
+## 功能介绍
 
-for example
+在光标位置插入文件内容（例如模板或代码片段）。
+
+- 在 **命令面板**（`Ctrl + Shift + P`）中选择 **"Paste a File Modify"**。  
+- 选择一个文件。  
+- 该文件的内容将被粘贴到当前活动文件中。  
+
+## 选项
+
+- **指定文件选择的文件夹**。  
+- **指定要匹配或忽略的文件的全局模式（glob pattern）**。  
+- **指定在粘贴前需要删除的正则表达式模式**。  
+- **默认模式**：  
+  - 你可以在文件中添加注释 `paste-a-file-modify START` 和 `paste-a-file-modify STOP`，用于标记要粘贴的内容部分。
+
+例如，原文件内容：
 ```
 xxxx
 xxxxxxx
-// paste-a-file START
+// paste-a-file-modify START
 oo
 oooo
-# paste-a-file STOP
+# paste-a-file-modify STOP
 xxxx xxx
 xxxxxxx
 xxxxxxxxxxxxx
-/* paste-a-file START */
+/* paste-a-file-modify START */
 ooo
 ```
-would be pasted as 
+最终粘贴结果：
 ```
 oo
 oooo
 ooo
 ```
 
-## Extension Settings
+## 扩展设置
 
-settings.json
+**`settings.json` 配置示例**
 ```json
-"paste-a-file.directory": {
+"paste-a-file-modify.directory": {
   "type": "string",
   "default": "",
-  "description": "Path/To/Directory in which files to paste are searched. Default is the open workspacefolder"
+  "description": "搜索要粘贴文件的目录路径。默认为当前打开的工作区目录。支持相对路径和绝对路径。"
 },
-"paste-a-file.filePattern": {
+"paste-a-file-modify.filePattern": {
   "type": "string",
   "default": "**/*",
-  "description": "A glob pattern for files that are matched in the selected folder"
+  "description": "匹配选定文件夹中的文件的全局模式"
 },
-"paste-a-file.ignoreFilePatterns": {
+"paste-a-file-modify.ignoreFilePatterns": {
   "type": "array",
   "default": [],
-  "description": "An array of glob patterns for files that are not matched"
+  "description": "要忽略的文件的全局模式数组"
 },
-"paste-a-file.excludeFromFilePatterns": {
+"paste-a-file-modify.excludeFromFilePatterns": {
   "type": "array",
   "default": [
     {
-      "body": "(((?=[\\s\\S]*paste-a-file START)^)|(?=.*paste-a-file STOP.*\\r?\\n))[\\s\\S]*?((?<=.*paste-a-file START.*\\r?\\n)|$)\\s*",
+      "body": "(((?=[\\s\\S]*paste-a-file-modify START)^)|(?=.*paste-a-file-modify STOP.*\\r?\\n))[\\s\\S]*?((?<=.*paste-a-file-modify START.*\\r?\\n)|$)\\s*",
       "flags": "g"
     }
   ],
-  "description": "An array of regex patterns which are cut out of the file before it is inserted"
+  "description": "在插入文件之前，要删除的正则表达式模式数组"
 }
 ```
 
-## Example Settings
-```
-"paste-a-file.filePattern": "**/*.{cc, cpp}",
-"paste-a-file.ignoreFilePatterns": [
+## 配置示例
+
+```json
+"paste-a-file-modify.filePattern": "**/*.{cc, cpp}",
+"paste-a-file-modify.ignoreFilePatterns": [
   "**/*.test.{cc, cpp}"
 ]
-
 ```
 
+## 绑定快捷键
 
-## Assign Key Binding
-
-keybindings.json
-
+在 `keybindings.json` 中添加以下配置：
 ```json
 {
   "key": "alt+p",
-  "command": "paste-a-file.paste"
-},
+  "command": "paste-a-file-modify.paste"
+}
 ```
 
-## License
+## 许可证
 
-This software is released under the MIT License, see LICENSE.
+本软件基于 **MIT 许可证** 发布，详情请参阅 LICENSE 文件。
+

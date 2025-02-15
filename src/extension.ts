@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 import * as vscode from 'vscode';
 import * as glob from 'glob';
+import * as path from 'path';
 
 function cleanUpSlashes(path: string) {
 	//windows problems...
@@ -10,22 +11,31 @@ function cleanUpSlashes(path: string) {
 		.replace(/^\//, "")
 }
 function config() {
-	return vscode.workspace.getConfiguration('paste-a-file')
+	return vscode.workspace.getConfiguration('paste-a-file-modify')
 }
 
 async function paste() {
 
-	// 
+	//
 	//find out search path
 	//
-	var searchPath: string | undefined =
-		config().get('directory') || // take workspacefolder if config not found or dir is "" (default).
-		vscode.workspace.workspaceFolders?.[0]?.uri.path;
+	var searchPath: string | undefined = config().get('directory');
+
+	if (searchPath) {
+		if (!path.isAbsolute(searchPath)) {
+			if (vscode.workspace.workspaceFolders) {
+				searchPath = path.join(vscode.workspace.workspaceFolders[0]?.uri.path + "/", searchPath);
+			}
+		}
+	} else {
+		searchPath = vscode.workspace.workspaceFolders?.[0]?.uri.path;
+	}
+
 	if (!searchPath) {
 		vscode.window.showInformationMessage(
 			`No directory found to paste files from.
 				Open a workspacefolder or specify the 
-				paste-a-file.directory setting`
+				paste-a-file-modify.directory setting`
 		)
 		return;
 	}
@@ -38,7 +48,7 @@ async function paste() {
 	if (!filePattern) {
 		vscode.window.showErrorMessage(
 			`No file pattern found to search for files.
-				Please specify the paste-a-file.filePattern setting`
+				Please specify the paste-a-file-modify.filePattern setting`
 		)
 		return;
 	}
@@ -106,7 +116,7 @@ async function paste() {
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	const disposable = vscode.commands.registerCommand('paste-a-file.paste', paste);
+	const disposable = vscode.commands.registerCommand('paste-a-file-modify.paste', paste);
 	context.subscriptions.push(disposable);
 }
 
